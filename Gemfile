@@ -6,7 +6,11 @@ gem 'sprockets-rails'
 gem 'sqlite3', '~> 1.4'
 gem 'puma', '>= 5.0'
 gem 'tzinfo-data', platforms: %i[ windows jruby ]
+gem 'csv'
 gem 'vite_rails'
+gem 'httparty'
+gem 'active_model_serializers'
+gem 'pagy', '~> 8.0'
 
 group :development, :test do
   gem 'debug', platforms: %i[ mri windows ]
