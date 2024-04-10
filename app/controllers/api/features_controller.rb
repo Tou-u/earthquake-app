@@ -4,13 +4,15 @@ class Api::FeaturesController < ApplicationController
 
   # Pagy settings for Features
   require 'pagy/extras/items'
+  require 'pagy/extras/overflow'
   Pagy::DEFAULT[:items] = 40
   Pagy::DEFAULT[:max_items] = 1000
   Pagy::DEFAULT[:items_param] = :per_page
+  Pagy::DEFAULT[:overflow] = :last_page
 
   # GET /features
   def index
-    features = Feature.filter_by_mag_type(params[:mag_type])
+    features = Feature.filter_by_mag_type(params[:mag_type]).last_month.ordered_by_newest
     @pagy, @features = pagy(features)
 
     pagination = {
