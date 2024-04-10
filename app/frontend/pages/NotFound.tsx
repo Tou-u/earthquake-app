@@ -1,9 +1,7 @@
-import { Link } from '@nextui-org/react'
-import { useRouteError } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { Link as NextLink } from '@nextui-org/react'
 
 export default function NotFound({ reason }: { reason?: string }) {
-  const error = useRouteError()
-  console.log(error)
   return (
     <main className='dark text-foreground bg-background'>
       <article className='flex flex-col items-center justify-center min-h-svh'>
@@ -11,9 +9,9 @@ export default function NotFound({ reason }: { reason?: string }) {
         <h1 className='font-bold text-xl'>
           {reason ? reason : 'Page not found.'}
         </h1>
-        <Link href='/' color='secondary'>
+        <NextLink as={Link} href='/' color='secondary'>
           Go back
-        </Link>
+        </NextLink>
       </article>
     </main>
   )
