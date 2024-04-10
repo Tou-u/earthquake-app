@@ -1,28 +1,37 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { NextUIProvider } from '@nextui-org/react'
+import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { NextUIProvider } from '@nextui-org/react'
 
-import App from '../components/App'
-import Comments from '../components/Comments'
+// Pages
+import Layout from '../components/Layout.tsx'
+import NotFound from '../pages/NotFound.tsx'
+import Home, { loadFeatures } from '../pages/Home.tsx'
+import Feature from '../pages/Feature.tsx'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-  },
-  {
-    path: '/comments/:id',
-    element: <Comments />,
+    element: <Layout />,
+    errorElement: <NotFound />,
+    children: [
+      {
+        path: '/',
+        element: <Home />,
+        loader: loadFeatures,
+      },
+      {
+        path: 'features/:id',
+        element: <Feature />,
+      },
+    ],
   },
 ])
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NextUIProvider>
-      <main className='dark text-foreground bg-background'>
-        <RouterProvider router={router} />
-      </main>
+      <RouterProvider router={router} />
     </NextUIProvider>
   </React.StrictMode>
 )
