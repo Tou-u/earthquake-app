@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
-  root 'homepage#index'
-  get 'comments/:id', to: 'comments#index'
+  # API
   namespace :api do
     resources :features, only: [:index, :show] do
       resources :comments, only: [:index, :create]
     end
     get 'refresh', to: 'features#refresh'
-    get 'up' => 'rails/health#show', as: :rails_health_check
+  end
+  # Frontend
+  root 'homepage#index'
+  get '*path', to: "homepage#index", constraints: ->(request) do
+    !request.xhr? && request.format.html?
   end
 end
