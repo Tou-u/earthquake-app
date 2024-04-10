@@ -1,66 +1,30 @@
-import { useParams } from 'react-router-dom'
-import LoadingSpinner from './LoadingSpinner.tsx'
-import NotFound from './NotFound.tsx'
-import useFeature from '../hooks/useFeature.tsx'
-import useComments from '../hooks/useComments.tsx'
-import FeatureInfo from './FeatureInfo.tsx'
+import { Avatar } from '@nextui-org/react'
 
-import { Input } from '@nextui-org/react'
-import IconSend from '../icons/IconSend.tsx'
-import { FormEvent, useState } from 'react'
-import { csrfToken } from '../utils/csrf.ts'
+import { Comment } from '../interfaces/Comments.ts'
+import { formatDate } from '../utils/date.tsx'
 
-export default function Comments() {
-  let { id } = useParams()
-
-  const { feature, isLoadingFeature, error } = useFeature(id!)
-  const { comments, isLoadingComments } = useComments(id!)
-
-  const [message, setMessage] = useState<string>('')
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    const comment = { body: message }
-
-    const response = await fetch(`/api/features/${id}/comments`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': csrfToken(),
-      },
-      body: JSON.stringify(comment),
-    })
-    const data = await response.json()
-    console.log(data)
-  }
-
+export default function Comments({ comments }: { comments: Comment[] }) {
   return (
-    <section className='min-h-screen'>
-      {isLoadingFeature && <LoadingSpinner title='Getting feature...' />}
-      {error && <NotFound />}
-      {feature && (
-        <>
-          <FeatureInfo feature={feature} />
-          {isLoadingComments ? (
-            'Loading comments..'
-          ) : (
-            <>
-              <code>{JSON.stringify(comments, null, 2)}</code>
-              <section className='fixed bottom-0 left-0 right-0 p-6'>
-                <p className='text-center font-bold text-lg'>Send a comment</p>
-                <form onSubmit={handleSubmit}>
-                  <Input
-                    placeholder='Your message'
-                    endContent={<IconSend />}
-                    autoComplete='off'
-                    value={message}
-                    onChange={(e) => setMessage(e.currentTarget.value)}
-                  />
-                </form>
-              </section>
-            </>
-          )}
-        </>
+    <section className='p-2 pb-24'>
+      {comments.length > 0 ? (
+        <article className='flex flex-col gap-2'>
+          {comments.map((comment) => (
+            <div key={comment.id} className='flex gap-2 items-end'>
+              <Avatar />
+              <p className='max-w-[calc(100%-80px)] p-2 rounded-xl rounded-bl-none bg-default/50'>
+                <span className='text-xs text-white/50'>
+                  {formatDate(Date.parse(comment.created_at))}
+                </span>
+                <br />
+                {comment.body}
+              </p>
+            </div>
+          ))}
+        </article>
+      ) : (
+        <p className='text-center pt-10 text-lg font-bold'>
+          There are no comments yet, start by sending one!
+        </p>
       )}
     </section>
   )
