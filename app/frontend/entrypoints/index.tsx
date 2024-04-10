@@ -7,7 +7,7 @@ import { NextUIProvider } from '@nextui-org/react'
 import Layout from '../components/Layout.tsx'
 import NotFound from '../pages/NotFound.tsx'
 import Home, { loadFeatures } from '../pages/Home.tsx'
-import Feature from '../pages/Feature.tsx'
+import Feature, { loadComments, createComment } from '../pages/Feature.tsx'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +23,8 @@ const router = createBrowserRouter([
       {
         path: 'features/:id',
         element: <Feature />,
+        loader: loadComments,
+        action: createComment,
       },
     ],
   },
