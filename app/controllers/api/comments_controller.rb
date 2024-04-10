@@ -4,7 +4,7 @@ class Api::CommentsController < ApplicationController
 
   # GET /comments
   def index
-    render json: @feature.comments
+    render json: @feature.comments.ordered_by_newest
   end
 
   # POST /comments
