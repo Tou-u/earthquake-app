@@ -10,5 +10,12 @@ class Feature < ApplicationRecord
     mag_types.present? ? where(mag_type: mag_types) : all
   }
 
+  scope :last_month, -> {
+    last_month = Time.now.last_month.to_i * 1000
+    where('time >= ?', last_month)
+  }
+
+  scope :ordered_by_newest, -> { order(time: :desc) }
+
   has_many :comments
 end
