@@ -2,12 +2,13 @@ import { Feature } from '../interfaces/Features.ts'
 import { Card, CardBody } from '@nextui-org/react'
 import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { formatDate } from '../utils/date.tsx'
 
 export default function FeatureInfo({ feature }: { feature: Feature }) {
   const { latitude, longitude } = feature.attribute.coordinates
   return (
-    <section className='p-2 flex justify-center gap-5'>
-      <Card classNames={{ body: 'justify-center' }} className='border-1'>
+    <section className='p-2 flex flex-col sm:flex-row justify-center gap-5'>
+      <Card fullWidth classNames={{ body: 'justify-center items-center' }}>
         <CardBody>
           <article className='grid grid-cols-2'>
             <strong>Place:</strong>
@@ -17,17 +18,11 @@ export default function FeatureInfo({ feature }: { feature: Feature }) {
               {feature.attribute.magnitude} {feature.attribute.mag_type}
             </p>
             <strong>Time:</strong>
-            <p>
-              {Intl.DateTimeFormat('es-CL', {
-                dateStyle: 'long',
-                timeStyle: 'medium',
-                timeZone: 'America/Santiago',
-              }).format(+feature.attribute.time)}
-            </p>
+            <p>{formatDate(+feature.attribute.time)}</p>
             <strong>Coordinates:</strong>
             <p>
-              [{feature.attribute.coordinates.latitude},
-              {feature.attribute.coordinates.longitude}]
+              [ {feature.attribute.coordinates.latitude},
+              {' ' + feature.attribute.coordinates.longitude} ]
             </p>
             <strong>Tsunami:</strong>
             <p>{feature.attribute.tsunami ? 'Yes' : 'No'}</p>
@@ -38,7 +33,7 @@ export default function FeatureInfo({ feature }: { feature: Feature }) {
         center={[+latitude, +longitude]}
         zoom={5}
         scrollWheelZoom={false}
-        className='size-72 rounded-xl border-1'
+        className='aspect-square h-36 sm:w-full sm:h-80 rounded-xl z-0'
       >
         <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
         <Marker position={[+latitude, +longitude]}>
