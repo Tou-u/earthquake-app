@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
   Card as CardNU,
   CardHeader,
@@ -7,13 +8,16 @@ import {
 } from '@nextui-org/react'
 import { Feature } from '../interfaces/Features.ts'
 
-export default function Card(feature: Feature) {
+export default function Card({ feature }: { feature: Feature }) {
   return (
-    <a href={`/comments/${feature.id}`} className='w-full'>
+    <Link to={`/features/${feature.id}`}>
       <CardNU
         isHoverable
-        fullWidth
-        classNames={{ header: 'justify-center', footer: 'justify-center' }}
+        className='h-full'
+        classNames={{
+          header: 'justify-center text-center',
+          footer: 'justify-center items-end h-full',
+        }}
       >
         <CardHeader>
           <div className='flex flex-col items-center'>
@@ -29,11 +33,11 @@ export default function Card(feature: Feature) {
         </CardHeader>
         <Divider />
         <CardFooter>
-          <Button size='sm' color='secondary'>
+          <Button size='sm' color='secondary' disableAnimation variant='shadow'>
             Comments
           </Button>
         </CardFooter>
       </CardNU>
-    </a>
+    </Link>
   )
 }
