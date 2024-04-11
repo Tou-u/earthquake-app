@@ -1,12 +1,12 @@
-import { useLoaderData, Form, useActionData } from 'react-router-dom'
-import { Input } from '@nextui-org/react'
-import IconSend from '../icons/IconSend.tsx'
+import { useEffect, useState } from 'react'
+import { useLoaderData, useActionData } from 'react-router-dom'
+
 import { Feature as IFeature } from '../interfaces/Features.ts'
 import { Comment } from '../interfaces/Comments.ts'
+import { csrfToken } from '../utils/csrf.ts'
 import FeatureInfo from '../components/FeatureInfo.tsx'
 import Comments from '../components/Comments.tsx'
-import { csrfToken } from '../utils/csrf.ts'
-import { useEffect, useState } from 'react'
+import NewComment from '../components/NewComment.tsx'
 
 type Data = {
   feature: IFeature
@@ -34,22 +34,7 @@ export default function Feature() {
     <>
       <FeatureInfo feature={feature} />
       <Comments comments={comments} />
-      <section className='fixed bottom-0 left-0 right-0 p-2 rounded-xl max-w-3xl m-auto bg-background'>
-        <p className='text-center font-bold text-lg'>Send a comment</p>
-        <Form method='post'>
-          <Input
-            placeholder='Your message'
-            endContent={<IconSend />}
-            autoComplete='off'
-            name='message'
-            className=''
-            isInvalid={!!action?.error}
-            errorMessage={action?.error ? 'Enter your message' : null}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-          />
-        </Form>
-      </section>
+      <NewComment action={action} message={message} setMessage={setMessage} />
     </>
   )
 }
