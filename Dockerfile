@@ -4,6 +4,13 @@
 ARG RUBY_VERSION=3.3.0
 FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
+# Install Node.js
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y nodejs npm && \
+    npm install -g npm@latest && \
+    npm cache clean --force && \
+    rm -rf /var/lib/apt/lists/*
+
 # Rails app lives here
 WORKDIR /rails
 
@@ -25,7 +32,6 @@ RUN apt-get update -qq && \
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
-
 # Copy application code
 COPY . .
 
@@ -45,6 +51,7 @@ FROM base
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y curl libsqlite3-0 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
