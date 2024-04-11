@@ -6,6 +6,7 @@ import {
   Divider,
   Button,
 } from '@nextui-org/react'
+
 import { Feature } from '../interfaces/Features.ts'
 
 export default function Card({ feature }: { feature: Feature }) {

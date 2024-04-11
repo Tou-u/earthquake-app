@@ -1,8 +1,9 @@
-import { Feature } from '../interfaces/Features.ts'
 import { Card, CardBody } from '@nextui-org/react'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { formatDate } from '../utils/date.tsx'
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+
+import { Feature } from '../interfaces/Features.ts'
+import { formatDate } from '../utils/date.ts'
 
 export default function FeatureInfo({ feature }: { feature: Feature }) {
   const { latitude, longitude } = feature.attribute.coordinates
@@ -36,11 +37,7 @@ export default function FeatureInfo({ feature }: { feature: Feature }) {
         className='aspect-square h-36 sm:w-full sm:h-80 rounded-xl z-0'
       >
         <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-        <Marker position={[+latitude, +longitude]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        <Marker position={[+latitude, +longitude]}></Marker>
       </MapContainer>
     </section>
   )

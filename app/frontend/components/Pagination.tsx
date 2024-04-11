@@ -16,6 +16,7 @@ export default function Pagination({ total, page, onChange }: Props) {
       showControls
       showShadow
       onChange={onChange}
+      className='m-auto'
     />
   )
 }

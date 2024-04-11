@@ -1,7 +1,7 @@
 import { Avatar } from '@nextui-org/react'
 
 import { Comment } from '../interfaces/Comments.ts'
-import { formatDate } from '../utils/date.tsx'
+import { formatDate } from '../utils/date.ts'
 
 export default function Comments({ comments }: { comments: Comment[] }) {
   return (
