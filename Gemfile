@@ -11,6 +11,7 @@ gem 'vite_rails'
 gem 'httparty'
 gem 'active_model_serializers'
 gem 'pagy', '~> 8.0'
+gem "whenever", require: false
 
 group :development, :test do
   gem 'debug', platforms: %i[ mri windows ]
