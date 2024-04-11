@@ -1,5 +1,4 @@
 import { Card, CardBody } from '@nextui-org/react'
-import 'leaflet/dist/leaflet.css'
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 
 import { Feature } from '../interfaces/Features.ts'
@@ -37,7 +36,7 @@ export default function FeatureInfo({ feature }: { feature: Feature }) {
         className='aspect-square h-36 sm:w-full sm:h-80 rounded-xl z-0'
       >
         <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-        <Marker position={[+latitude, +longitude]}></Marker>
+        <Marker position={[+latitude, +longitude]} />
       </MapContainer>
     </section>
   )
